@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/arshwia/natours/issues"
   },
-  "homepage": "https://github.com/arshwia/natours#readme"
+  "homepage": "https://github.com/arshwia/natours#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
