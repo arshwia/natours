@@ -76,22 +76,24 @@ app.post('/api/v1/tours', (req, res) => {
 
 app.patch('/api/v1/tours/:id', (req, res) => {
     const id = req.params.id * 1;
-    const tourIndex = tours.findIndex((el) => el.id === id);
 
-    if (tourIndex === -1) {
+    if (id === -1) {
         return res.status(404).json({
             status: 'fail',
             message: 'this tour is not found💔',
         });
     }
 
+    //داخل ریکویست بادی نتونه ایدی رو عوض کنه
     delete req.body.id;
 
-    tours[tourIndex] = {
-        ...tours[tourIndex],
+    //جای گذاری مقادیر جدید
+    tours[id] = {
+        ...tours[id],
         ...req.body,
     };
 
+    // اپ دید کردن فایل دیتامون
     fs.writeFile(
         `${__dirname}/dev-data/data/tours-simple.json`,
         JSON.stringify(tours),
@@ -106,7 +108,7 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             res.status(200).json({
                 status: 'success',
                 data: {
-                    tour: tours[tourIndex],
+                    tour: tours[id],
                 },
             });
         }
