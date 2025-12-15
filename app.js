@@ -76,8 +76,9 @@ app.post('/api/v1/tours', (req, res) => {
 
 app.patch('/api/v1/tours/:id', (req, res) => {
     const id = req.params.id * 1;
+    const tour = tours.find((el) => el.id === id);
 
-    if (id === -1) {
+    if (!tour) {
         return res.status(404).json({
             status: 'fail',
             message: 'this tour is not found💔',
@@ -110,6 +111,40 @@ app.patch('/api/v1/tours/:id', (req, res) => {
                 data: {
                     tour: tours[id],
                 },
+            });
+        }
+    );
+});
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+    const id = req.params.id * 1;
+    const tour = tours.find((el) => el.id === id);
+
+    // ایا وجود دارد
+    if (!tour) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'this tour is not found💔',
+        });
+    }
+
+    tours.splice(id, 1);
+
+    // پاک کردن اون ایدی از دیتا بیس یا همون فایلمون
+    fs.writeFile(
+        `${__dirname}/dev-data/data/tours-simple.json`,
+        JSON.stringify(tours),
+        (err) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'err',
+                    message: 'Cannot write file',
+                });
+            }
+
+            res.status(204).json({
+                status: 'success',
+                data: null,
             });
         }
     );
