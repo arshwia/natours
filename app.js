@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const { get } = require('http');
 
 const app = express();
 
@@ -12,7 +13,7 @@ const tours = JSON.parse(
 );
 
 // فرستان تمام ترو ها به کلاینت با استفاده از json
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
         results: tours.length,
@@ -20,10 +21,10 @@ app.get('/api/v1/tours', (req, res) => {
             tours: tours,
         },
     });
-});
+};
 
 // فرستادن یک تور خاص با استفاده از ای دی
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
     // ایدی رو با استفاده از یک ضرب دیتا تایپش رو عوض میکنیم
     const id = req.params.id * 1;
     // اون تور خاص رو اسخراج میکنیم
@@ -45,10 +46,10 @@ app.get('/api/v1/tours/:id', (req, res) => {
             tours: tour,
         },
     });
-});
+};
 
 // ساخت یک تور جدید و زخیره کردن اون داخل فایل جیسون مون
-app.post('/api/v1/tours', (req, res) => {
+const creatTour = (req, res) => {
     // ایدی که از قبل وجود داشت رو به دست میاریم و مثبت یک میکنیم
     const newId = tours[tours.length - 1].id + 1;
     // یک ابجکت جدید میسازیم ایدیش با ایدی که ما دادیم ساخته بشه و بقیش با ریکویست بادی
@@ -72,9 +73,10 @@ app.post('/api/v1/tours', (req, res) => {
             });
         }
     );
-});
+};
 
-app.patch('/api/v1/tours/:id', (req, res) => {
+// ادیت یک تور خاص
+const updateTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
 
@@ -114,9 +116,10 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             });
         }
     );
-});
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+// پاک کردن یک تور خاص
+const deleteTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
 
@@ -148,7 +151,15 @@ app.delete('/api/v1/tours/:id', (req, res) => {
             });
         }
     );
-});
+};
+
+// routeing
+app.route('/api/v1/tours').get(getAllTours).post(creatTour);
+
+app.route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
 
 // شروع کردن سرور
 const port = 3000;
