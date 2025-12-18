@@ -1,12 +1,14 @@
 const fs = require('fs');
-const express = require('express');
 const { get } = require('http');
+const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
 //middelwares
 //اضافه کردن یک میدل ور برای استفاده از ریکویست دات بادی
 app.use(express.json());
+app.use(morgan('dev'));
 
 app.use((req, res, next) => {
     console.log('Hello from the middelware 😁😁😁');
