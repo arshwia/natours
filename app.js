@@ -23,6 +23,7 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+// route handlers
 // فرستان تمام ترو ها به کلاینت با استفاده از json
 const getAllTours = (req, res) => {
     res.status(200).json({
@@ -165,7 +166,7 @@ const deleteTour = (req, res) => {
     );
 };
 
-// routeing
+// routes
 app.route('/api/v1/tours').get(getAllTours).post(creatTour);
 
 app.route('/api/v1/tours/:id')
@@ -173,7 +174,7 @@ app.route('/api/v1/tours/:id')
     .patch(updateTour)
     .delete(deleteTour);
 
-// شروع کردن سرور
+// start a server
 const port = 3000;
 app.listen(port, () => {
     console.log(`app runing on port : ${port}`);
