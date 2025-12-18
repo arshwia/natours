@@ -4,8 +4,19 @@ const { get } = require('http');
 
 const app = express();
 
+//middelwares
 //اضافه کردن یک میدل ور برای استفاده از ریکویست دات بادی
 app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log('Hello from the middelware 😁😁😁');
+    next();
+});
+
+app.use((req, res, next) => {
+    req.reqTime = new Date().toISOString();
+    next();
+});
 
 // خاندن فایل به صورت گلوبال تا لازم نشود هر دفعه برای هر ریکویست دوباره فایل را بخونیم
 const tours = JSON.parse(
@@ -16,6 +27,7 @@ const tours = JSON.parse(
 const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
+        time: req.reqTime,
         results: tours.length,
         data: {
             tours: tours,
