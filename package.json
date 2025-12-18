@@ -18,6 +18,7 @@
   "homepage": "https://github.com/arshwia/natours#readme",
   "dependencies": {
     "express": "^5.2.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "morgan": "^1.10.1"
   }
 }
