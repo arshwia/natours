@@ -1,24 +1,24 @@
 {
-  "name": "natours",
-  "version": "1.0.0",
-  "description": "Learning nodejs, express and mongoDB",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arshwia/natours.git"
-  },
-  "author": "arshia hastam",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/arshwia/natours/issues"
-  },
-  "homepage": "https://github.com/arshwia/natours#readme",
-  "dependencies": {
-    "express": "^5.2.1",
-    "fs": "^0.0.1-security",
-    "morgan": "^1.10.1"
-  }
+    "name": "natours",
+    "version": "1.0.0",
+    "description": "Learning nodejs, express and mongoDB",
+    "main": "app.js",
+    "scripts": {
+        "start": "npx nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arshwia/natours.git"
+    },
+    "author": "arshia hastam",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/arshwia/natours/issues"
+    },
+    "homepage": "https://github.com/arshwia/natours#readme",
+    "dependencies": {
+        "express": "^5.2.1",
+        "fs": "^0.0.1-security",
+        "morgan": "^1.10.1"
+    }
 }
