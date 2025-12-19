@@ -13,6 +13,7 @@ app.use((req, res, next) => {
     console.log(
         'Hello from the middelware 😁😁😁'
     );
+
     next();
 });
 
