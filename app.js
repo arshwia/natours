@@ -11,7 +11,9 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use((req, res, next) => {
-    console.log('Hello from the middelware 😁😁😁');
+    console.log(
+        'Hello from the middelware 😁😁😁'
+    );
     next();
 });
 
@@ -22,7 +24,9 @@ app.use((req, res, next) => {
 
 // خاندن فایل به صورت گلوبال تا لازم نشود هر دفعه برای هر ریکویست دوباره فایل را بخونیم
 const tours = JSON.parse(
-    fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+    fs.readFileSync(
+        `${__dirname}/dev-data/data/tours-simple.json`
+    )
 );
 
 // route handlers
@@ -68,7 +72,10 @@ const creatTour = (req, res) => {
     // ایدی که از قبل وجود داشت رو به دست میاریم و مثبت یک میکنیم
     const newId = tours[tours.length - 1].id + 1;
     // یک ابجکت جدید میسازیم ایدیش با ایدی که ما دادیم ساخته بشه و بقیش با ریکویست بادی
-    const newTour = Object.assign({ id: newId }, req.body);
+    const newTour = Object.assign(
+        { id: newId },
+        req.body
+    );
 
     // و اون رو به تور های قبلی که داشتیم اضافه میکنیم
     tours.push(newTour);
@@ -168,13 +175,68 @@ const deleteTour = (req, res) => {
     );
 };
 
-// routes
-app.route('/api/v1/tours').get(getAllTours).post(creatTour);
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'this rout is not yet difned!',
+    });
+};
 
-app.route('/api/v1/tours/:id')
+const creatUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'this rout is not yet difned!',
+    });
+};
+
+const getUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'this rout is not yet difned!',
+    });
+};
+
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'this rout is not yet difned!',
+    });
+};
+
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'this rout is not yet difned!',
+    });
+};
+
+const tourRouter = express.Router();
+const userRouter = express.Router();
+
+tourRouter
+    .route('/')
+    .get(getAllTours)
+    .post(creatTour);
+
+tourRouter
+    .route('/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
+
+userRouter
+    .route('/')
+    .get(getAllUsers)
+    .post(creatUser);
+
+userRouter
+    .route('/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 // start a server
 const port = 3000;
