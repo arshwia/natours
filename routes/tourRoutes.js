@@ -6,9 +6,13 @@ const {
     creatTour,
     updateTour,
     deleteTour,
+    checkID,
 } = require('../controllers/tourControllers.js');
 
 const router = express.Router();
+
+// param middel wear
+router.param('id', checkID);
 
 router
     .route('/')

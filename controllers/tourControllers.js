@@ -6,6 +6,20 @@ const tours = JSON.parse(
     )
 );
 
+// چک کردن این که ایا اون id که استفاده شده موجود هست یا نه
+const checkID = (req, res, next, val) => {
+    console.log(`Tour id is: ${val}`);
+
+    // چک میکنیم که ایا اون ایدی که کلاینت داده اصلا وجود داره یا نه
+    if (req.params.id * 1 + 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID',
+        });
+    }
+    next();
+};
+
 // فرستان تمام ترو ها به کلاینت با استفاده از json
 const getAllTours = (req, res) => {
     res.status(200).json({
@@ -24,15 +38,6 @@ const getTour = (req, res) => {
     const id = req.params.id * 1;
     // اون تور خاص رو اسخراج میکنیم
     const tour = tours.find((el) => el.id === id);
-
-    // چک میکنیم که ایا اون ایدی که کلاینت داده اصلا وجود داره یا نه
-    // if (id > tours.length) {
-    if (!tour) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'this tour is not found💔',
-        });
-    }
 
     // ارسال دیتا
     res.status(200).json({
@@ -78,13 +83,6 @@ const updateTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
 
-    if (!tour) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'this tour is not found💔',
-        });
-    }
-
     //داخل ریکویست بادی نتونه ایدی رو عوض کنه
     delete req.body.id;
 
@@ -121,14 +119,6 @@ const deleteTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
 
-    // ایا وجود دارد
-    if (!tour) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'this tour is not found💔',
-        });
-    }
-
     tours.splice(id, 1);
 
     // پاک کردن اون ایدی از دیتا بیس یا همون فایلمون
@@ -157,4 +147,5 @@ module.exports = {
     creatTour,
     updateTour,
     deleteTour,
+    checkID,
 };
