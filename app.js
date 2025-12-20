@@ -14,14 +14,6 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static(`./public`));
 
 app.use((req, res, next) => {
-    console.log(
-        'Hello from the middelware 😁😁😁'
-    );
-
-    next();
-});
-
-app.use((req, res, next) => {
     req.reqTime = new Date().toISOString();
     next();
 });
