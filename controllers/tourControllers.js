@@ -20,6 +20,18 @@ const checkID = (req, res, next, val) => {
     next();
 };
 
+const checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: 'fail',
+            message:
+                'this is a bad request💔 missing name or price',
+        });
+    }
+
+    next();
+};
+
 // فرستان تمام ترو ها به کلاینت با استفاده از json
 const getAllTours = (req, res) => {
     res.status(200).json({
@@ -50,6 +62,7 @@ const getTour = (req, res) => {
 
 // ساخت یک تور جدید و زخیره کردن اون داخل فایل جیسون مون
 const creatTour = (req, res) => {
+    delete req.body.id;
     // ایدی که از قبل وجود داشت رو به دست میاریم و مثبت یک میکنیم
     const newId = tours[tours.length - 1].id + 1;
     // یک ابجکت جدید میسازیم ایدیش با ایدی که ما دادیم ساخته بشه و بقیش با ریکویست بادی
@@ -148,4 +161,5 @@ module.exports = {
     updateTour,
     deleteTour,
     checkID,
+    checkBody,
 };
