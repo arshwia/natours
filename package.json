@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "description": "Learning nodejs, express and mongoDB",
     "main": "app.js",
-    "type": "module",
     "scripts": {
         "start:dev": "npx nodemon server.js",
         "start:prod": "cross-env NODE_ENV=production nodemon server.js"
