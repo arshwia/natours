@@ -6,12 +6,13 @@ const getAllTours = async (req, res) => {
 
         res.status(200).json({
             status: 'success',
+            results: tours.length,
             data: {
                 tours,
             },
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(404).json({
             status: 'fail',
             message: 'error message: invalid data sent!',
         });
@@ -20,21 +21,19 @@ const getAllTours = async (req, res) => {
 
 const getTour = async (req, res) => {
     try {
-        let name = req.params.name;
+        const tour = await Tour.findById(req.params.id);
 
-        const tour = await Tour.find({ name: name });
         res.status(200).json({
             status: 'success',
+            name: tour.name,
             data: {
-                name,
-                tour: tour[0],
+                tour,
             },
         });
     } catch (err) {
         res.status(400).json({
             status: 'fail',
             message: 'error message: invalid data sent!',
-            message: err,
         });
     }
 };
