@@ -1,44 +1,60 @@
 const { Tour } = require('../modules/tourModule');
 
-const checkBody = (req, res, next) => {
-    if (!req.body.name || !req.body.price) {
-        return res.status(400).json({
+const getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find();
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tours,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
             status: 'fail',
-            message: 'this is a bad request💔 missing name or price',
+            message: 'error message: invalid data sent!',
         });
     }
-
-    next();
 };
 
-const getAllTours = (req, res) => {
-    res.status(200).json({
-        status: 'ok',
-        data: {
-            tour: 'nononono',
-            body: req.body,
-        },
-    });
+const getTour = async (req, res) => {
+    try {
+        let name = req.params.name;
+
+        const tour = await Tour.find({ name: name });
+        res.status(200).json({
+            status: 'success',
+            data: {
+                name,
+                tour: tour[0],
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: 'error message: invalid data sent!',
+            message: err,
+        });
+    }
 };
 
-const getTour = (req, res) => {
-    res.status(200).json({
-        status: 'ok',
-        data: {
-            tour: 'nononono',
-            body: req.body,
-        },
-    });
-};
+const creatTour = async (req, res) => {
+    try {
+        const newTour = await Tour.create(req.body);
 
-const creatTour = (req, res) => {
-    res.status(200).json({
-        status: 'ok',
-        data: {
-            tour: 'nononono',
-            body: req.body,
-        },
-    });
+        res.status(201).json({
+            status: 'success',
+            data: {
+                tour: newTour,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: 'error message: invalid data sent!',
+        });
+    }
 };
 
 const updateTour = (req, res) => {
@@ -66,5 +82,4 @@ module.exports = {
     creatTour,
     updateTour,
     deleteTour,
-    checkBody,
 };

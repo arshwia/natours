@@ -5,11 +5,11 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
+
+// req.body
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
+app.use(morgan('dev'));
 
 app.use(express.static(`./public`));
 
