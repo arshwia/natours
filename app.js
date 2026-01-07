@@ -11,6 +11,9 @@ app.use(express.json());
 
 app.use(morgan('dev'));
 
+// برای ابجکت کردن ریکویستی که میزنیم داخل یو ار ال فولدر 8 پارت 15
+app.set('query parser', 'extended');
+
 app.use(express.static(`./public`));
 
 app.use((req, res, next) => {

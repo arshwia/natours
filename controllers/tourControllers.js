@@ -7,7 +7,23 @@ const getAllTours = async (req, res) => {
         const excludedfields = ['page', 'sort', 'limit', 'fields'];
         excludedfields.forEach((el) => delete queryObj[el]);
 
-        const query = Tour.find(queryObj);
+        // عوض گردن مفادیر
+        const replacements = {
+            gte: '$gte',
+            gt: '$gt',
+            lte: '$lte',
+            lt: '$lt',
+        };
+
+        let querySrt = JSON.stringify(queryObj);
+        Object.keys(replacements).forEach((key) => {
+            querySrt = querySrt.replace(
+                new RegExp(`\\b${key}\\b`, 'g'),
+                replacements[key]
+            );
+        });
+
+        const query = Tour.find(JSON.parse(querySrt));
 
         const tours = await query;
 
