@@ -27,6 +27,10 @@ const getAllTours = async (req, res) => {
 
         const tours = await query;
 
+        if (tours.length === 0) {
+            throw new Error('No results to display.');
+        }
+
         res.status(200).json({
             status: 'success',
             results: tours.length,
@@ -37,7 +41,7 @@ const getAllTours = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: err,
+            message: err.message,
         });
     }
 };
