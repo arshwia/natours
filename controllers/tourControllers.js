@@ -1,4 +1,3 @@
-const { stat } = require('fs');
 const { Tour } = require('../modules/tourModule');
 
 const getAllTours = async (req, res) => {
@@ -7,26 +6,32 @@ const getAllTours = async (req, res) => {
         const excludedfields = ['page', 'sort', 'limit', 'fields'];
         excludedfields.forEach((el) => delete queryObj[el]);
 
-        // عوض گردن مفادیر
+        // replace get gt lte lt
         const replacements = {
             gte: '$gte',
             gt: '$gt',
             lte: '$lte',
             lt: '$lt',
         };
-
         let querySrt = JSON.stringify(queryObj);
         Object.keys(replacements).forEach((key) => {
             querySrt = querySrt.replace(
                 new RegExp(`\\b${key}\\b`, 'g'),
-                replacements[key]
+                replacements[key],
             );
         });
 
-        const query = Tour.find(JSON.parse(querySrt));
+        let query = Tour.find(JSON.parse(querySrt));
+
+        // sorting
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy);
+        } else {
+            query = query.sort('-createdAt');
+        }
 
         const tours = await query;
-
         if (tours.length === 0) {
             throw new Error('No results to display.');
         }
