@@ -31,6 +31,14 @@ const getAllTours = async (req, res) => {
             query = query.sort('-createdAt');
         }
 
+        // field limiting
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            query = query.select(fields);
+        } else {
+            query = query.select('-__v');
+        }
+
         const tours = await query;
         if (tours.length === 0) {
             throw new Error('No results to display.');
